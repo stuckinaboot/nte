@@ -19,10 +19,10 @@ def currTimestamp():
 
 def takeNote(title, msg):
 	if len(title) == 0:
-		stdPrint('NTE: Take Note:')
-		title = input('Enter note title:')
+		stdPrint('nte: Take Note')
+		title = raw_input('Enter note title:')
 	if len(msg) == 0:
-		msg = input('Enter note message:')
+		msg = raw_input('Enter note message:')
 	if len(title) == 0 and len(msg) == 0:
 		stdPrint('Failed Recording: Invalid title and message')
 		return
@@ -33,7 +33,7 @@ def takeNote(title, msg):
 	except:
 		with open(filePath, 'w') as notesFile:
 			notesFile.write(txtToWrite)
-	stdPrint('NTE: note recorded')
+	stdPrint('nte: Note recorded')
 
 def areValidComponents(components, numThereShouldBe, lines):
 	if len(components) == numThereShouldBe:
@@ -67,7 +67,7 @@ def move(components, lines):
 	return lines
 
 def clear(components, lines):
-	confirm = input('Are you sure you would like to clear all notes? This can NOT be undone (y/n)')
+	confirm = raw_input('Are you sure you would like to clear all notes? This can NOT be undone (y/n)')
 	if confirm == 'y':
 		return []
 	elif confirm == 'n':
@@ -97,7 +97,7 @@ def showCommandHelp():
 	x - exit''')
 
 def viewNotes():
-	stdPrint('NTE: View Notes')
+	stdPrint('nte: View Notes')
 	printDivider()
 	with open(filePath, 'r+') as notesFile:
 		lines = []
@@ -112,7 +112,7 @@ def viewNotes():
 				i += 1
 		printDivider()
 		showCommandHelp()
-		cmdStr = input('Enter a command:')
+		cmdStr = raw_input('Enter a command:')
 		while cmdStr != '':
 			newLines = processCommand(cmdStr, lines)
 			if len(newLines) == 1 and newLines[0] == EXIT_STR:
@@ -129,7 +129,7 @@ def viewNotes():
 
 			os.system('clear')
 
-			stdPrint('NTE: View Notes')
+			stdPrint('nte: View Notes')
 			printDivider()
 			
 			i = 0
@@ -141,7 +141,7 @@ def viewNotes():
 			
 			printDivider()
 			showCommandHelp()
-			cmdStr = input('Enter a command:')
+			cmdStr = raw_input('Enter a command:')
 
 def main():
 	if len(argv) == 1:
