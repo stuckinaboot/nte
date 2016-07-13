@@ -14,7 +14,7 @@ Alternatively, enter `nte "some title to a note" "some message to a note"` to ta
 ## Viewing Notes:
 Enter `nte v` and view/delete/move notes around.
 
-All notes are stored in a hidden file in your home directory. The file path is `~/.notes.txt`.
-This file can be opened/modified/deleted in any text editor and nte will run just fine.
+## Editing Notes:
+Enter `nte e` to open the notes file in Vim
 
 *This program is supposed to be usable by those with very little knowledge of Unix, and the README is designed to reflect that
