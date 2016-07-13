@@ -3,6 +3,11 @@ import datetime
 from os.path import expanduser
 import os
 import sys
+import subprocess
+
+def write_to_clipboard(output):
+	process = subprocess.Popen('pbcopy', env={'LANG': 'en_US.UTF-8'}, stdin=subprocess.PIPE)
+	process.communicate(output.encode('utf-8'))
 
 home = expanduser('~')
 filePath = home + '/.notes.txt'
@@ -66,6 +71,12 @@ def move(components, lines):
 	lines.insert(lineNumB, line)
 	return lines
 
+def copy(components, lines):
+    if areValidComponents(components, 1, lines) == False:
+        return lines
+    write_to_clipboard(lines[int(components[0])])
+    return lines
+
 def clear(components, lines):
 	confirm = raw_input('Are you sure you would like to clear all notes? This can NOT be undone (y/n)')
 	if confirm == 'y':
@@ -76,7 +87,7 @@ def clear(components, lines):
 def exit(*argsThatWontBeUsed):
 	return [EXIT_STR]
 
-cmds = {'d': delete, 'm': move, 'clr': clear, 'x': exit}
+cmds = {'d': delete, 'm': move, 'c': copy, 'clr': clear, 'x': exit}
 
 def processCommand(cmdStr, lines):
 	components = cmdStr.split(' ')
@@ -93,7 +104,8 @@ def showCommandHelp():
 	stdPrint('''Commands: 
 	d {line number A} - delete line number A
 	m {line number A} {line number B} - move line number A to line number B
-	clr - clear notes file
+	c {line number A} - copy line number A to clipboard
+        clr - clear notes file
 	x - exit''')
 
 def viewNotes():
@@ -108,6 +120,7 @@ def viewNotes():
 			line = line.strip('\n')
 			if len(line) >= 1:
 				lines.append(line.strip('\n'))
+				printDivider()
 				stdPrint(str(i) + '-> ' + line)
 				i += 1
 		printDivider()
@@ -136,6 +149,7 @@ def viewNotes():
 			for line in lines:
 				line = line.strip('\n')
 				if len(line) >= 1:
+					printDivider()
 					stdPrint(str(i) + '-> ' + line)
 					i += 1
 			
@@ -155,8 +169,11 @@ def main():
 			#View notes
 			os.system('clear')
 			viewNotes()
-	else:
+                elif argv[1] == 'e':
+                        #Open in Vim
+                        os.system ('vim ' + filePath)
+        else:
 		stdPrint('Invalid arguments')
 
 if __name__ == "__main__":
-    main()
+	main()
