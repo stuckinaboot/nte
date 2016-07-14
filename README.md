@@ -9,7 +9,7 @@ Note: There are many other ways to make nte available anywhere, this is just one
 
 ## Taking Notes:
 Enter `nte` into your shell and press enter. Then, take a note!
-Alternatively, enter `nte "some title to a note" "some message to a note"` to take notes even more quickly.
+Alternatively, enter `nte "some message to a note"` or `nte "some title to a note" "some message to a note"` to take notes even more quickly.
 
 ## Viewing Notes:
 Enter `nte v` and view/delete/move notes around.
