@@ -4,6 +4,7 @@ from os.path import expanduser
 import os
 import sys
 import subprocess
+import readline
 
 def write_to_clipboard(output):
 	process = subprocess.Popen('pbcopy', env={'LANG': 'en_US.UTF-8'}, stdin=subprocess.PIPE)
@@ -23,11 +24,12 @@ def currTimestamp():
 	return '({:%Y-%m-%d %H:%M:%S})'.format(datetime.datetime.now())
 
 def takeNote(title, msg):
-	if len(title) == 0:
-		stdPrint('nte: Take Note')
-		title = raw_input('Enter note title:')
-	if len(msg) == 0:
-		msg = raw_input('Enter note message:')
+	if len(title) == 0 and len(title) == len(msg):
+		if len(title) == 0:
+			stdPrint('nte: Take Note')
+			title = raw_input('Enter note title:').strip('\n')
+		if len(msg) == 0:
+			msg = raw_input('Enter note message:').strip('\n')
 	if len(title) == 0 and len(msg) == 0:
 		stdPrint('Failed Recording: Invalid title and message')
 		return
@@ -72,10 +74,10 @@ def move(components, lines):
 	return lines
 
 def copy(components, lines):
-    if areValidComponents(components, 1, lines) == False:
-        return lines
-    write_to_clipboard(lines[int(components[0])])
-    return lines
+	if areValidComponents(components, 1, lines) == False:
+		return lines
+	write_to_clipboard(lines[int(components[0])])
+	return lines
 
 def clear(components, lines):
 	confirm = raw_input('Are you sure you would like to clear all notes? This can NOT be undone (y/n)')
@@ -105,7 +107,7 @@ def showCommandHelp():
 	d {line number A} - delete line number A
 	m {line number A} {line number B} - move line number A to line number B
 	c {line number A} - copy line number A to clipboard
-        clr - clear notes file
+	clr - clear notes file
 	x - exit''')
 
 def viewNotes():
@@ -169,11 +171,12 @@ def main():
 			#View notes
 			os.system('clear')
 			viewNotes()
-                elif argv[1] == 'e':
-                        #Open in Vim
-                        os.system ('vim ' + filePath)
-        else:
-		stdPrint('Invalid arguments')
+		elif argv[1] == 'e':
+			print('entered')
+			#Open in Vim
+			os.system ('vim ' + filePath)
+		else:
+			takeNote('', argv[1])
 
 if __name__ == "__main__":
 	main()
